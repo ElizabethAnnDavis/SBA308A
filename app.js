@@ -1,30 +1,51 @@
 import * as APIdata from "./api.js"
 import * as fauxAPIdata from "./bs.js"
 
-// https://i.pinimg.com/originals/f5/3b/0a/f53b0a3b95e0f35eb8d479220518964e.jpg
-// https://external-preview.redd.it/zrJcTeRyLSrt3tbf8lCJIbi3cMx6s8AiKATGq2iaSrU.png?width=640&crop=smart&auto=webp&s=40d5c8c79fb1e75e7508804a7c42a634ee31247f
-
 
 const container = document.querySelector('.container');
 const contentContainer = document.querySelector('.contentContainer');
 const pageTitle = document.querySelector('.pageTitle');
-//const center = document.querySelector('.center');
+const formContainer = document.querySelector('.center');
 const startBtn = document.querySelector('.startBtn');
-
-//const form = document.createElement('form');
-
 const moreOptions = document.querySelector('.moreOptions');
 const add = document.querySelector('.add');
 const learn = document.querySelector('.learn');
-
 
 let quizQuestions = [];
 let score = 0;
 let currentQuestionIndex = 0;
 let isFirstRun = true;
+let entryID = 0;
+
+/*******************************************/
+/*              GET INFO CODE              */
+/*******************************************/
+async function getInfo(){
+    const charInfo = document.createElement('button');
+    charInfo.innerHTML = 'GET CHARACTER INFOMATION';
+    const epiInfo = document.createElement('button');
+    epiInfo.innerHTML = 'GET EPISODE INFOMATION';
+    const studyQues = document.createElement('button');
+}
+learn.addEventListener('click', getInfo);
 
 
+/*******************************************/
+/*              ADD INFO CODE              */
+/*******************************************/
+async function addInfo(){
+    entryID++;
+    let title = prompt('Title your entry:')
+    let body = prompt('What would you like to add?');
+    let id = entryID;
+    fauxAPIdata.postSomething(title, body, id);
+}
+add.addEventListener('click', addInfo);
 
+
+/*******************************************/
+/*                QUIZ CODE                */
+/*******************************************/
 async function loadQuestions(){
     try{
         let questions = await APIdata.getQuestionsArray();
@@ -64,7 +85,6 @@ function runQuiz(){
 
 // Function to display the question and answers
 function displayQuestion() {
-    const formContainer = document.querySelector('.center');
     formContainer.innerHTML = '';
 
     if (currentQuestionIndex >= quizQuestions.length) {
