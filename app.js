@@ -12,6 +12,7 @@ const add = document.querySelector('.add');
 const learn = document.querySelector('.learn');
 
 let quizQuestions = [];
+let tenQuestions = [];
 let score = 0;
 let currentQuestionIndex = 0;
 let isFirstRun = true;
@@ -21,11 +22,20 @@ let entryID = 0;
 /*              GET INFO CODE              */
 /*******************************************/
 async function getInfo(){
+    const showInfo = document.createElement('div');
     const charInfo = document.createElement('button');
     charInfo.innerHTML = 'GET CHARACTER INFOMATION';
     const epiInfo = document.createElement('button');
     epiInfo.innerHTML = 'GET EPISODE INFOMATION';
     const studyQues = document.createElement('button');
+    studyQues.innerHTML = 'STUDY FOR THE QUIZ';
+
+    formContainer.appendChild(showInfo);
+    formContainer.appendChild(charInfo);
+    formContainer.appendChild(epiInfo);
+    formContainer.appendChild(studyQues);
+
+    console.log("HOW MANY KIDS: " + formContainer.children.length);
 }
 learn.addEventListener('click', getInfo);
 
@@ -69,14 +79,30 @@ async function startQuiz(e){
             await loadQuestions();
             isFirstRun = false;
         };
-        alert(`You are about to start the quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
-        console.log(`You are about to start the quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
+        alert(`You are about to start the quiz.\nIt has 10 questions.\nGood luck!`);
+        console.log(`You are about to start the quiz.\nIt has 10 questions.\nGood luck!`);
+        setTenQuestions();
         runQuiz();
     }catch(err){
         console.log(err);
     };
 }
 startBtn.addEventListener('click', startQuiz);
+
+function setTenQuestions(){
+    for(let i = 0; i < 10; i++){
+        tenQuestions.push(quizQuestions[Math.floor(Math.random() * (35)) + 1])
+    };
+    console.log(tenQuestions);
+}
+
+function clearTenQuestions(){
+    let arrLen = tenQuestions.length;
+    for(let i = 0; i < arrLen; i++){
+        tenQuestions.pop();
+    };
+    console.log(tenQuestions);
+}
 
 function runQuiz(){
     pageTitle.innerHTML = "";
@@ -87,7 +113,7 @@ function runQuiz(){
 function displayQuestion() {
     formContainer.innerHTML = '';
 
-    if (currentQuestionIndex >= quizQuestions.length) {
+    if (currentQuestionIndex >= tenQuestions.length) {
         pageTitle.innerHTML = "Thank you for completing the quiz!";
         displayResults();
         return;
@@ -95,7 +121,7 @@ function displayQuestion() {
         pageTitle.innerHTML = `QUESTION ${currentQuestionIndex+1}`;
     }
 
-    const questionObj = quizQuestions[currentQuestionIndex];
+    const questionObj = tenQuestions[currentQuestionIndex];
 
     const questionTitle = document.createElement('h3');
     questionTitle.textContent = questionObj.question;
@@ -140,23 +166,23 @@ function displayQuestion() {
 }
 
 function displayResults(){
-    if(score === quizQuestions.length){
-        alert(`Follow Your Passion and Life Will Reward You.\nPERFECT SCORE!\nCongrats you got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-        console.log(`Follow Your Passion and Life Will Reward You.\nPERFECT SCORE!\nCongrats you got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-    }else if(score <= quizQuestions.length/2){
+    if(score === tenQuestions.length){
+        alert(`Follow Your Passion and Life Will Reward You.\nPERFECT SCORE!\nCongrats you got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
+        console.log(`Follow Your Passion and Life Will Reward You.\nPERFECT SCORE!\nCongrats you got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
+    }else if(score <= tenQuestions.length/2){
         if(score === 0){
-            alert(`You must redeem your honour!?\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-            console.log(`You must redeem your honour!\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+            alert(`You must redeem your honour!?\n${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
+            console.log(`You must redeem your honour!\n${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
         }else{
-            alert(`Failure is only the opportunity to begin again. Only this time, more wisely.\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-            console.log(`Failure is only the opportunity to begin again. Only this time, more wisely.\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+            alert(`Failure is only the opportunity to begin again. Only this time, more wisely.\n${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
+            console.log(`Failure is only the opportunity to begin again. Only this time, more wisely.\n${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
         };
-    }else if(score <= (quizQuestions.length/4)*3){
-        alert(`Good times become good memories, but bad times make good lessons.\nYou got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-        console.log(`Good times become good memories, but bad times make good lessons.\nYou got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+    }else if(score <= (tenQuestions.length/4)*3){
+        alert(`Good times become good memories, but bad times make good lessons.\nYou got ${score}/$tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
+        console.log(`Good times become good memories, but bad times make good lessons.\nYou got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
     }else{
-        alert(`It is usually best to admit mistakes when they occur, and to seek to restore honor.\nYou got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-        console.log(`It is usually best to admit mistakes when they occur, and to seek to restore honor.\nYou got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+        alert(`It is usually best to admit mistakes when they occur, and to seek to restore honor.\nYou got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
+        console.log(`It is usually best to admit mistakes when they occur, and to seek to restore honor.\nYou got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
     };
-    startBtn.style.display = 'block';
+    //startBtn.style.display = 'block';
 }
