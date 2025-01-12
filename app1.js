@@ -8,14 +8,13 @@ import * as fauxAPIdata from "./bs.js"
 const container = document.querySelector('.container');
 const contentContainer = document.querySelector('.contentContainer');
 const pageTitle = document.querySelector('.pageTitle');
-//const center = document.querySelector('.center');
+const center = document.querySelector('.center');
 const startBtn = document.querySelector('.startBtn');
 
-//const form = document.createElement('form');
+const form = document.createElement('form');
 
 let quizQuestions = [];
 let score = 0;
-let currentQuestionIndex = 0;
 let isFirstRun = true;
 
 
@@ -38,17 +37,14 @@ async function loadQuestions(){
 async function startQuiz(e){
     pageTitle.innerHTML = "";
     pageTitle.innerHTML = "Good Luck!";
-    startBtn.style.display = 'none';
-    score = 0;
-    currentQuestionIndex = 0;
+    alert(`You are about to start this quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
+    console.log(`You are about to start this quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
 
     try{
         if(isFirstRun){
             await loadQuestions();
             isFirstRun = false;
         };
-        alert(`You are about to start this quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
-        console.log(`You are about to start this quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
         //testFunction();
         runQuiz();
     }catch(err){
@@ -67,16 +63,13 @@ function runQuiz(){
     pageTitle.innerHTML = "";
     let optionsStr = "";
     console.log(quizQuestions.length);
-
-    displayQuestion();
-    //for(let i = 0; i < quizQuestions.length; i++){
+    for(let i = 0; i < quizQuestions.length; i++){
         //if(i != 0){
           //  clearForm();
         //};
-        //pageTitle.innerHTML = `QUESTION ${i+1}`;
-        
+        pageTitle.innerHTML = `QUESTION ${i+1}`;
         // create form element (quizQuestions[i].options)
-        /*setFormQuestion(quizQuestions[i].options);
+        setFormQuestion(quizQuestions[i].options);
 
         //console.log(i);
         optionsStr = "";
@@ -92,13 +85,12 @@ function runQuiz(){
         
         let userAnswer = prompt(`QUESTION ${i+1}:(enter your answer)\n${quizQuestions[i].question}\n1. ${optionsStr}`);
         console.log(`QUESTION ${i+1}:(enter your answer)\n${quizQuestions[i].question}\n1. ${optionsStr}`);
-        */
+        
         /*if((userAnswer.trim())-1 === quizQuestions[i].answer){
             //alert("✔️ Correct!");
             console.log("✔️ Correct! OP:1");
             score++;
         }else */
-        /*
         if(userAnswer.trim().toLowerCase() === quizQuestions[i].answer.toLowerCase()){
             //alert("✔️ Correct!");
             console.log("✔️ Correct!");
@@ -106,81 +98,11 @@ function runQuiz(){
         }else{
             //alert(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].answer}`);
             console.log(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].answer}`);
-        };*/
+        };
         
-    //};
-    if (currentQuestionIndex >= quizQuestions.length) {
-        displayResults();
-    }
+    };
+    displayResults();
 }
-
-// Function to display the question and answers
-function displayQuestion() {
-    const formContainer = document.querySelector('.center');
-    formContainer.innerHTML = '';  // Clear any previous content
-    
-    if (currentQuestionIndex >= quizQuestions.length) {
-        pageTitle.innerHTML = "Thank you for completing the quiz!";
-        return;
-    }else{
-        pageTitle.innerHTML = `QUESTION ${currentQuestionIndex+1}`;
-    }
-
-    const questionObj = quizQuestions[currentQuestionIndex];
-
-    const questionTitle = document.createElement('h3');
-    questionTitle.textContent = questionObj.question;
-    formContainer.appendChild(questionTitle);
-
-    const form = document.createElement('form');
-
-    questionObj.options.forEach((option, index) => {
-        const label = document.createElement('label');
-        const input = document.createElement('input');
-        input.type = 'radio';
-        input.name = 'option';
-        input.value = option;
-        input.id = 'option' + index;
-
-        label.appendChild(input);
-        label.appendChild(document.createTextNode(option));
-        form.appendChild(label);
-        form.appendChild(document.createElement('br'));
-    });
-
-    const submitButton = document.createElement('button');
-    submitButton.textContent = 'GUESS';
-    form.appendChild(submitButton);
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        
-        // Check if the selected answer is correct
-        const selectedOption = form.querySelector('input[name="option"]:checked');
-        if (selectedOption) {
-            const isCorrect = selectedOption.value === questionObj.answer;
-            if(isCorrect){
-                score++;
-            }
-            alert(isCorrect ? '✔️ Correct!' : `❌ Wrong!\nThe correct answer was: ${questionObj.answer}`); // Show whether the answer is correct or not
-        }
-
-        // Remove the question and options when an answer is selected
-        currentQuestionIndex++;
-        displayQuestion();
-    });
-
-    formContainer.appendChild(form);
-}
-
-// Start by displaying the first question
-//displayQuestion();
-
-
-
-
-
-
 
 function displayResults(){
     if(score === quizQuestions.length){
@@ -188,17 +110,16 @@ function displayResults(){
         console.log(`PERFECT SCORE!\nCongrats you got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
     }else if(score <= quizQuestions.length/2){
         if(score === 0){
-            alert(`You must redeem your honour!?\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-            console.log(`You must redeem your honour!\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+            alert(`Are you even trying?\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+            console.log(`Are you even trying?\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
         }else{
-            alert(`You need to focus.\nHave some calming tea.\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
-            console.log(`You need to focus.\nHave some calming tea.\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+            alert(`Please study some more.\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
+            console.log(`Please study some more.\n${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
         };
     }else{
         alert(`You got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
         console.log(`You got ${score}/${quizQuestions.length}, ${(score/quizQuestions.length)*100}%`);
     };
-    startBtn.style.display = 'block';
 }
 
 

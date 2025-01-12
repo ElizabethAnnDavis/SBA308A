@@ -1,3 +1,4 @@
+import * as fauxAPIdata from "./bs.js"
 // import { favourite } from "./app.js";
 export const questions = [];
 
