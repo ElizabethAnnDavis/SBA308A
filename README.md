@@ -38,7 +38,7 @@
  *    -  5%  --> Ensure the program runs as expected, without any undesired behavior caused by misunderstanding of the JavaScript event loop 
  *               (such as race conditions, API calls being handled out of order, etc.).
  *  
- *    -  5%  --> Create an engaging user experience through the use of HTML and CSS.
+ *    ✔  5%  --> Create an engaging user experience through the use of HTML and CSS.
  *  
  *    - 10%  --> Ensure that the program runs without errors 
  *               (comment out things that do not work, and explain your blockers - you can still receive partial credit).
@@ -47,5 +47,5 @@
  *  
  *    ✔  2%  --> Include a README file that contains a description of your application.
  *  
- *    -  5%  --> Level of effort displayed in creativity, presentation, and user experience.
+ *    ✔  5%  --> Level of effort displayed in creativity, presentation, and user experience.
  **/
