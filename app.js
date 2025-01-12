@@ -12,6 +12,7 @@ const startBtn = document.querySelector('.startBtn');
 
 let quizQuestions = [];
 let score = 0;
+let isFirstRun = true;
 
 
 
@@ -35,7 +36,10 @@ async function startQuiz(e){
     console.log(`You are about to start this quiz.\nIt has ${quizQuestions.length} questions.\nGood luck!`);
 
     try{
-        await loadQuestions();
+        if(isFirstRun){
+            await loadQuestions();
+            isFirstRun = false;
+        };
         //testFunction();
         runQuiz();
     }catch(err){
@@ -52,36 +56,39 @@ function testFunction(){
 
 function runQuiz(){
     let optionsStr = "";
+    console.log(quizQuestions.length);
     for(let i = 0; i < quizQuestions.length; i++){
+        console.log(i);
         optionsStr = "";
         for(let j = 0; j < quizQuestions[i].options.length; j++){
             if(j === 0){
-                optionsStr = `1. ${quizQuestions[i].options[j]}`;
+                optionsStr = `${quizQuestions[i].options[j]}`;
             }else{
-                optionsStr = `${optionsStr}\n${j+1} ${quizQuestions[i].options[j]}`
+                optionsStr = `${optionsStr}\n${j+1}. ${quizQuestions[i].options[j]}`
             };
             //console.log(optionsStr);
         };
-        console.log(optionsStr);
-        /*
-        let userAnswer = prompt(`QUESTION 1:(enter the number of your answer)\n${quizQuestions[i].question}\n1. ${quizQuestions[i].options[0]}\n2. ${quizQuestions[i].options[1]}\n3. ${quizQuestions[i].options[2]}`);
-        console.log(`QUESTION 1:(enter the number of your answer)\n${quizQuestions[i].question}\n1. ${quizQuestions[i].options[0]}\n2. ${quizQuestions[i].options[1]}\n3. ${quizQuestions[i].options[2]}`);
-
-        if((userAnswer.trim())-1 === quizQuestions[i].answer){
-            alert("✔️ Correct!");
-            console.log("✔️ Correct!");
+        //console.log(optionsStr);
+        
+        let userAnswer = prompt(`QUESTION ${i+1}:(enter your answer)\n${quizQuestions[i].question}\n1. ${optionsStr}`);
+        console.log(`QUESTION ${i+1}:(enter your answer)\n${quizQuestions[i].question}\n1. ${optionsStr}`);
+        
+        /*if((userAnswer.trim())-1 === quizQuestions[i].answer){
+            //alert("✔️ Correct!");
+            console.log("✔️ Correct! OP:1");
             score++;
-        }else if(userAnswer.trim().toLowerCase() === quizQuestions[i].options[quizQuestions[i].answer].toLowerCase()){
+        }else */
+        if(userAnswer.trim().toLowerCase() === quizQuestions[i].answer.toLowerCase()){
             alert("✔️ Correct!");
             console.log("✔️ Correct!");
             score++;
         }else{
             alert(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].options[quizQuestions[i].answer]}`);
-            console.log(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].options[quizQuestions[i].answer]}`);
+            console.log(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].answer}`);
         };
-        */
+        
     };
-    //displayResults();
+    displayResults();
 }
 
 function displayResults(){
