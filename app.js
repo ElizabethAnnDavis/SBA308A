@@ -24,10 +24,6 @@ async function loadQuestions(){
     try{
         let questions = await APIdata.getQuestionsArray();
         for(let i = 0; i < questions.length; i++){
-            //console.log("QUESTIONS " + i + ": " + questions[i].question);
-            //console.log("CHOICES " + i + ": " + questions[i].options);
-            //console.log("ANSWER " + i + ": " + questions[i].answer);
-
             quizQuestions.push(questions[i]);
         };
     }catch(err){
@@ -69,53 +65,6 @@ function runQuiz(){
     console.log(quizQuestions.length);
 
     displayQuestion();
-
-    //console.log("currentQuestionIndex: " + currentQuestionIndex);
-    //console.log("quizQuestions.length: " + quizQuestions.length);
-
-    //if (currentQuestionIndex >= quizQuestions.length) {
-      //  displayResults();
-    //};
-    //for(let i = 0; i < quizQuestions.length; i++){
-        //if(i != 0){
-          //  clearForm();
-        //};
-        //pageTitle.innerHTML = `QUESTION ${i+1}`;
-        
-        // create form element (quizQuestions[i].options)
-        /*setFormQuestion(quizQuestions[i].options);
-
-        //console.log(i);
-        optionsStr = "";
-        for(let j = 0; j < quizQuestions[i].options.length; j++){
-            if(j === 0){
-                optionsStr = `${quizQuestions[i].options[j]}`;
-            }else{
-                optionsStr = `${optionsStr}\n${j+1}. ${quizQuestions[i].options[j]}`
-            };
-            //console.log(optionsStr);
-        };
-        //console.log(optionsStr);
-        
-        let userAnswer = prompt(`QUESTION ${i+1}:(enter your answer)\n${quizQuestions[i].question}\n1. ${optionsStr}`);
-        console.log(`QUESTION ${i+1}:(enter your answer)\n${quizQuestions[i].question}\n1. ${optionsStr}`);
-        */
-        /*if((userAnswer.trim())-1 === quizQuestions[i].answer){
-            //alert("✔️ Correct!");
-            console.log("✔️ Correct! OP:1");
-            score++;
-        }else */
-        /*
-        if(userAnswer.trim().toLowerCase() === quizQuestions[i].answer.toLowerCase()){
-            //alert("✔️ Correct!");
-            console.log("✔️ Correct!");
-            score++;
-        }else{
-            //alert(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].answer}`);
-            console.log(`❌ Wrong!\nThe correct answer was: ${quizQuestions[i].answer}`);
-        };*/
-        
-    //};
 }
 
 // Function to display the question and answers

@@ -24,7 +24,7 @@
  *    ✔ 20%  --> Use the fetch API or Axios to communicate with an external web API. 
  *               Use the data provided by this API to populate your application’s content and features.
  *  
- *    ✔ 15%  --> Create user interaction with the API through a search feature, paginated gallery, or similar. 
+ *    ? 15%  --> Create user interaction with the API through a search feature, paginated gallery, or similar. 
  *               This feature should use GET requests to retrieve associated data.
  *  
  *    - 15%  --> Enable user manipulation of data within the API through the use of POST, PUT, or PATCH requests. 

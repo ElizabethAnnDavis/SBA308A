@@ -37,3 +37,24 @@ body{
     background-image:linear-gradient(rgb(251, 250, 252), rgb(182, 179, 186), rgb(251, 250, 252));
     box-shadow: 20px 20px 50px 15px rgb(81, 81, 157);
 }
+
+.moreOptions{
+    margin-top: 44px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.learn, .add{
+    border-width:0;
+    border-radius: 15px 22px;
+    padding: 0 22px 0 22px;
+    margin-bottom: 11px;
+}
+
+.add, .learn:hover{
+    background-image: linear-gradient(to bottom right, rgb(170, 146, 211), rgb(36, 36, 98));
+}
+
+.learn, .add:hover{
+    background-image: linear-gradient(to bottom right, rgb(36, 36, 98), rgb(170, 146, 211));
+}
