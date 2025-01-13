@@ -63,6 +63,8 @@ learn.addEventListener('click', getInfo);
 
 async function createInfoSection(){
     try{
+        charSearch.hidden = true;
+        showInfo.appendChild(charSearch);
         showInfo.appendChild(synopsisEle);
         showInfo.appendChild(creators);
         
@@ -78,11 +80,27 @@ async function createInfoSection(){
 }
 
 function characterSearch(){
+    charSearch.hidden = false;
+    for (let i = 0; i < charData.length; i++) {
+        const option = document.createElement("option");
 
+        option.value = charData[i].name;
+        option.textContent = charData[i].name;
+        console.log(charData[i].name);
+
+        charSearch.appendChild(option);
+    }
+    retrieveCharacterInformation();
 }
 charInfo.addEventListener('click', characterSearch);
-epiInfo.addEventListener('click', listEpisodes);
-studyQues.addEventListener('click', practiceQuiz);
+
+function retrieveCharacterInformation(){
+
+}
+charSearch.addEventListener("change", retrieveCharacterInformation);
+
+//epiInfo.addEventListener('click', listEpisodes);
+//studyQues.addEventListener('click', practiceQuiz);
 
 
 
@@ -134,9 +152,11 @@ async function loadQuestions(){
 async function startQuiz(e){
     pageTitle.innerHTML = "";
     pageTitle.innerHTML = "Good Luck!";
-    startBtn.style.display = 'none';
+    //startBtn.style.display = 'none';
+    startBtn.hidden = true;
     score = 0;
     currentQuestionIndex = 0;
+    resetFormContainer();
 
     try{
         if(isFirstRun){
@@ -248,5 +268,5 @@ function displayResults(){
         alert(`It is usually best to admit mistakes when they occur, and to seek to restore honor.\nYou got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
         console.log(`It is usually best to admit mistakes when they occur, and to seek to restore honor.\nYou got ${score}/${tenQuestions.length}, ${(score/tenQuestions.length)*100}%`);
     };
-    //startBtn.style.display = 'block';
+    startBtn.hidden = false;
 }

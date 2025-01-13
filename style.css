@@ -22,8 +22,8 @@ body{
 }
 
 #showInfoId{
-    border: solid white;
-    min-height: 200px;
+    margin-top: 33px;
+    min-height: 155px;
     display: block;
 }
 
