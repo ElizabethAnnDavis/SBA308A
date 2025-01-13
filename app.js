@@ -19,9 +19,13 @@ const creators = document.createElement('p');
 const charInfo = document.createElement('button');
 charInfo.id = 'characterBtn';
 charInfo.innerHTML = 'GET CHARACTER INFOMATION';
+const charSearch = document.createElement('select');
+charSearch.id = 'charSearch';
+
 const epiInfo = document.createElement('button');
 epiInfo.id = 'episodeBtn';
 epiInfo.innerHTML = 'GET EPISODE INFOMATION';
+
 const studyQues = document.createElement('button');
 studyQues.id = 'studyBtn';
 studyQues.innerHTML = 'STUDY FOR THE QUIZ';
@@ -67,13 +71,29 @@ async function createInfoSection(){
         formContainer.appendChild(epiInfo);
         formContainer.appendChild(studyQues);
 
-        console.log("HOW MANY KIDS: " + formContainer.children.length);
+        //console.log("HOW MANY KIDS: " + formContainer.children.length);
     }catch(err){
         console.log(err);
     };
 }
 
+function characterSearch(){
 
+}
+charInfo.addEventListener('click', characterSearch);
+epiInfo.addEventListener('click', listEpisodes);
+studyQues.addEventListener('click', practiceQuiz);
+
+
+
+function resetFormContainer(){
+    let numOfChildren = formContainer.children.length;
+    for(let i = 0; i < numOfChildren; i++){
+        console.log("HOW MANY KIDS: " + formContainer.children.length);
+        formContainer.removeChild(formContainer.children[0]);
+    };
+    console.log("HOW MANY KIDS: " + formContainer.children.length);
+}
 
 
 
