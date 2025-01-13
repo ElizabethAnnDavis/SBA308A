@@ -27,7 +27,7 @@
  *    ? 15%  --> Create user interaction with the API through a search feature, paginated gallery, or similar. 
  *               This feature should use GET requests to retrieve associated data.
  *  
- *    - 15%  --> Enable user manipulation of data within the API through the use of POST, PUT, or PATCH requests. 
+ *    ✔ 15%  --> Enable user manipulation of data within the API through the use of POST, PUT, or PATCH requests. 
  *               Ensure your chosen API supports this feature before beginning.
  *  
  *    ✔ 15%  --> Make use of Promises and async/await syntax as appropriate.

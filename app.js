@@ -11,8 +11,28 @@ const moreOptions = document.querySelector('.moreOptions');
 const add = document.querySelector('.add');
 const learn = document.querySelector('.learn');
 
+const showInfo = document.createElement('div');
+showInfo.id = 'showInfoId';
+const synopsisEle = document.createElement('p');
+const creators = document.createElement('p');
+
+const charInfo = document.createElement('button');
+charInfo.id = 'characterBtn';
+charInfo.innerHTML = 'GET CHARACTER INFOMATION';
+const epiInfo = document.createElement('button');
+epiInfo.id = 'episodeBtn';
+epiInfo.innerHTML = 'GET EPISODE INFOMATION';
+const studyQues = document.createElement('button');
+studyQues.id = 'studyBtn';
+studyQues.innerHTML = 'STUDY FOR THE QUIZ';
+
 let quizQuestions = [];
 let tenQuestions = [];
+
+let showData = {};
+let charData = {};
+let epiData = {};
+
 let score = 0;
 let currentQuestionIndex = 0;
 let isFirstRun = true;
@@ -22,22 +42,40 @@ let entryID = 0;
 /*              GET INFO CODE              */
 /*******************************************/
 async function getInfo(){
-    const showInfo = document.createElement('div');
-    const charInfo = document.createElement('button');
-    charInfo.innerHTML = 'GET CHARACTER INFOMATION';
-    const epiInfo = document.createElement('button');
-    epiInfo.innerHTML = 'GET EPISODE INFOMATION';
-    const studyQues = document.createElement('button');
-    studyQues.innerHTML = 'STUDY FOR THE QUIZ';
+    try{
+        showData = await APIdata.getShowInfo();
+        console.log(showData[0].synopsis);
+        console.log(showData[0].creators);
 
-    formContainer.appendChild(showInfo);
-    formContainer.appendChild(charInfo);
-    formContainer.appendChild(epiInfo);
-    formContainer.appendChild(studyQues);
+        charData = await APIdata.getCharacterInfo();
+        epiData = await APIdata.getEpisodeInfo();
 
-    console.log("HOW MANY KIDS: " + formContainer.children.length);
+        createInfoSection();
+    }catch(err){
+        console.log(err);
+    };
 }
 learn.addEventListener('click', getInfo);
+
+async function createInfoSection(){
+    try{
+        showInfo.appendChild(synopsisEle);
+        showInfo.appendChild(creators);
+        
+        formContainer.appendChild(showInfo);
+        formContainer.appendChild(charInfo);
+        formContainer.appendChild(epiInfo);
+        formContainer.appendChild(studyQues);
+
+        console.log("HOW MANY KIDS: " + formContainer.children.length);
+    }catch(err){
+        console.log(err);
+    };
+}
+
+
+
+
 
 
 /*******************************************/
@@ -48,9 +86,15 @@ async function addInfo(){
     let title = prompt('Title your entry:')
     let body = prompt('What would you like to add?');
     let id = entryID;
-    fauxAPIdata.postSomething(title, body, id);
+    try{
+        await fauxAPIdata.postSomething(title, body, id);
+    }catch(err){
+        console.log(err);
+    }
 }
 add.addEventListener('click', addInfo);
+
+
 
 
 /*******************************************/
