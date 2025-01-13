@@ -11,6 +11,12 @@ const moreOptions = document.querySelector('.moreOptions');
 const add = document.querySelector('.add');
 const learn = document.querySelector('.learn');
 
+const searchContainer = document.createElement('div');
+searchContainer.id = 'searchContainer';
+
+const btnContainer = document.createElement('div');
+btnContainer.id = 'btnContainer';
+
 const showInfo = document.createElement('div');
 showInfo.id = 'showInfoId';
 const synopsisEle = document.createElement('p');
@@ -25,6 +31,9 @@ charSearch.id = 'charSearch';
 const epiInfo = document.createElement('button');
 epiInfo.id = 'episodeBtn';
 epiInfo.innerHTML = 'GET EPISODE INFOMATION';
+const epiSearch = document.createElement('select');
+epiSearch.id = 'epiSearch';
+
 
 const studyQues = document.createElement('button');
 studyQues.id = 'studyBtn';
@@ -64,16 +73,22 @@ learn.addEventListener('click', getInfo);
 async function createInfoSection(){
     try{
         charSearch.hidden = true;
+        epiSearch.hidden = true;
         synopsisEle.innerHTML = showData[0].synopsis;
         //synopsisEle.hidden = false;
-        showInfo.appendChild(charSearch);
+        //searchContainer.appendChild(charSearch);
+        //searchContainer.appendChild(epiSearch);
+
+        showInfo.appendChild(searchContainer);
         showInfo.appendChild(synopsisEle);
         showInfo.appendChild(creators);
+
+        btnContainer.appendChild(charInfo);
+        btnContainer.appendChild(epiInfo);
         
         formContainer.appendChild(showInfo);
-        formContainer.appendChild(charInfo);
-        formContainer.appendChild(epiInfo);
-        formContainer.appendChild(studyQues);
+        formContainer.appendChild(btnContainer);
+        //formContainer.appendChild(studyQues);
 
         //console.log("HOW MANY KIDS: " + formContainer.children.length);
     }catch(err){
@@ -83,21 +98,28 @@ async function createInfoSection(){
 
 function characterSearch(){
     charSearch.hidden = false;
+    epiSearch.hidden = true;
     synopsisEle.innerHTML = "";
+
+    if(epiSearch.children.length > 0){
+        resetContainer(searchContainer);
+    };
+
     for (let i = 0; i < charData.length; i++) {
         const option = document.createElement("option");
 
         option.value = charData[i].name;
         option.textContent = charData[i].name;
-        console.log(charData[i].name);
+        //console.log(charData[i].name);
 
         charSearch.appendChild(option);
     }
-    retrieveCharacterInformation();
+    searchContainer.appendChild(charSearch);
+    retrieveCharactorsInformation();
 }
 charInfo.addEventListener('click', characterSearch);
 
-function retrieveCharacterInformation(){
+function retrieveCharactorsInformation(){
     let thisChar = charSearch.value;
     console.log(thisChar);
 
@@ -117,20 +139,96 @@ function retrieveCharacterInformation(){
     }
     synopsisEle.innerHTML = description;
 }
-charSearch.addEventListener("change", retrieveCharacterInformation);
+charSearch.addEventListener("change", retrieveCharactorsInformation);
 
-//epiInfo.addEventListener('click', listEpisodes);
+
+function searchEpisodes(){
+    charSearch.hidden = true;
+    epiSearch.hidden = false;
+    synopsisEle.innerHTML = "";
+
+    if(charSearch.children.length > 0){
+        resetContainer(searchContainer);
+    };
+
+    for (let i = 0; i < 3; i++) {
+        const option = document.createElement("option");
+
+        option.value = `${i+1}`;
+        option.textContent = `Season ${i+1}`;
+        //console.log`Season ${i+1}`;
+
+        epiSearch.appendChild(option);
+    }
+    searchContainer.appendChild(epiSearch);
+    retrieveEpisodeInformation();
+}
+epiInfo.addEventListener('click', searchEpisodes);
+
+
+function retrieveEpisodeInformation(){
+    let thisSeason = epiSearch.value;
+    console.log(thisSeason);
+    let start = 0;
+    let stop = 20;
+
+    let description = "";
+    console.log("before the for");
+    for (let i = 0; i < epiData.length; i++) {
+        console.log("Selected value:", thisSeason);
+        console.log("Option value:", epiData[i].Season);
+        console.log(Number(epiData[i].Season) === Number(thisSeason));
+        if (Number(epiData[i].Season) === Number(thisSeason)) {
+            if(Number(thisSeason) === 1){
+                start = 0;
+                stop = 20;
+                break;
+            }else if(Number(thisSeason) === 2){
+                start = 20;
+                stop = 40;
+                break;
+            }else{//Number(thisSeason) === 3
+                start = 40;
+                stop = 61;
+                break;
+            };
+            //break;
+
+            //console.log(charData[i])
+            //console.log(charData[i].physicalDescription)
+            //console.log(charData[i].bio.ethnicity)
+            //description = //`${thisChar}\ngender: ${charData[i].physicalDescription.gender}\neye color: ${charData[i].physicalDescription.eyeColor}\nhair color: ${charData[i].physicalDescription.hairColor}\nnation: ${charData[i].bio.ethnicity}`;
+            //console.log(description);
+            //break;
+        };
+    }
+    description = "";
+    for(let j = start; j < stop; j++){
+        console.log(j);
+        //console.log(epiData[j].Season);
+        //console.log(epiData[j].NumInSeason);
+        //console.log(epiData[j].Title);
+
+        description = `${description}\n - Season ${epiData[j].Season} Episode ${epiData[j].NumInSeason}: ${epiData[j].Title}`;
+    };
+    console.log(description);
+    synopsisEle.innerHTML = description;
+}
+epiSearch.addEventListener("change", retrieveEpisodeInformation);
+
+
+//listEpisodes
 //studyQues.addEventListener('click', practiceQuiz);
 
 
 
-function resetFormContainer(){
-    let numOfChildren = formContainer.children.length;
+function resetContainer(element){
+    let numOfChildren = element.children.length;
     for(let i = 0; i < numOfChildren; i++){
-        console.log("HOW MANY KIDS: " + formContainer.children.length);
-        formContainer.removeChild(formContainer.children[0]);
+        console.log("HOW MANY KIDS: " + element.children.length);
+        element.removeChild(element.children[0]);
     };
-    console.log("HOW MANY KIDS: " + formContainer.children.length);
+    console.log("HOW MANY KIDS: " + element.children.length);
 }
 
 
@@ -176,7 +274,7 @@ async function startQuiz(e){
     startBtn.hidden = true;
     score = 0;
     currentQuestionIndex = 0;
-    resetFormContainer();
+    resetContainer(formContainer);
 
     try{
         if(isFirstRun){
