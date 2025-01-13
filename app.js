@@ -64,6 +64,8 @@ learn.addEventListener('click', getInfo);
 async function createInfoSection(){
     try{
         charSearch.hidden = true;
+        synopsisEle.innerHTML = showData[0].synopsis;
+        //synopsisEle.hidden = false;
         showInfo.appendChild(charSearch);
         showInfo.appendChild(synopsisEle);
         showInfo.appendChild(creators);
@@ -81,6 +83,7 @@ async function createInfoSection(){
 
 function characterSearch(){
     charSearch.hidden = false;
+    synopsisEle.innerHTML = "";
     for (let i = 0; i < charData.length; i++) {
         const option = document.createElement("option");
 
@@ -95,7 +98,24 @@ function characterSearch(){
 charInfo.addEventListener('click', characterSearch);
 
 function retrieveCharacterInformation(){
+    let thisChar = charSearch.value;
+    console.log(thisChar);
 
+    let description = "";
+    console.log("before the for");
+    for (let i = 0; i < charData.length; i++) {
+        //console.log("Selected value:", thisChar);
+        //console.log("Option value:", charData[i].value);
+        if (charData[i].name === thisChar) {
+            //console.log(charData[i])
+            //console.log(charData[i].physicalDescription)
+            //console.log(charData[i].bio.ethnicity)
+            description = `${thisChar}\ngender: ${charData[i].physicalDescription.gender}\neye color: ${charData[i].physicalDescription.eyeColor}\nhair color: ${charData[i].physicalDescription.hairColor}\nnation: ${charData[i].bio.ethnicity}`;
+            console.log(description);
+            break;
+        }
+    }
+    synopsisEle.innerHTML = description;
 }
 charSearch.addEventListener("change", retrieveCharacterInformation);
 
